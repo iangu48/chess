@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {PIECES} from '../constants'
-import {Container, Grid} from "@material-ui/core";
+import React, {useState} from 'react';
+import {PLAYER_COLOUR, PIECES} from '../constants'
+import King from "./pieces/King";
+import {Box, Container, Grid} from "@material-ui/core";
 import Square from "./Square";
 
 export default function Board(props) {

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {PIECES} from '../constants'
 import {Container, Grid} from "@material-ui/core";
 import Square from "./Square";

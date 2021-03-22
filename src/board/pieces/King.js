@@ -7,7 +7,3 @@ export default function King(props) {
 
     return (<div>KING</div>)
 }
-
-export function moveKing(board, colour, ) {
-
-}

@@ -1,6 +1,7 @@
 import {Box} from "@material-ui/core";
 import {PIECES, PLAYER_COLOUR} from "../constants";
 import King from "./pieces/King";
+import checkMove from "./pieces/ValidateMove";
 import React, {useEffect, useState} from "react";
 import Queen from "./pieces/Queen";
 import Pawn from "./pieces/Pawn";
@@ -13,10 +14,6 @@ export default function Square(props) {
     const {piece, pos, setSelected, selected, turn, board, setBoard, setTurn} = props
     const [r, c] = pos
     const highlighted = isSelected() ? '#a6f2f7' : 'white'
-
-    function isSelected() {
-        return JSON.stringify(pos) === JSON.stringify(selected)
-    }
 
     function draw(p) {
         switch (p) {
@@ -56,23 +53,25 @@ export default function Square(props) {
             case PIECES.WHITE.PAWN:
                 return Pawn(PLAYER_COLOUR.WHITE)
             default:
-                return <div></div>
+                return <div> </div>
         }
     }
 
     function handleClick() {
-
-        if (Object.values(turn).indexOf(piece) >= 0) {
+        if (isAllyPiece()) { // select ally piece
             setSelected(pos)
-        } else if (board[r][c] === 0 && JSON.stringify([-1, -1]) !== JSON.stringify(selected)) {
-            // if move is valid, then move
-            movePiece(selected, pos)
-
-            // else cannot move here
+        } else if ((isCurrentSquareEmpty() || !isAllyPiece()) && isClickPieceMove()) { // move to empty square or try to take piece
+            // if move is valid (empty square, enemy square, correct movement)
+            if (checkMove(selected, pos, board, null )) {
+                movePiece(selected, pos)
+            } else {
+                console.log('cannot move here')
+            }
         } else {
             console.log('cannot move this pce')
         }
     }
+
 
     function movePiece(from, to) {
         const copy = [...board]
@@ -87,6 +86,24 @@ export default function Square(props) {
         // unselect square
         setSelected([-1,-1])
     }
+
+    // Current square is empty
+    function isCurrentSquareEmpty() {
+        return board[r][c] === 0
+    }
+    // Current square is an ally piece
+    function isAllyPiece() {
+        return Object.values(turn).indexOf(piece) >= 0
+    }
+    // A square has already been selected, and current click is attempting to move piece to new position
+    function isClickPieceMove() {
+        return JSON.stringify([-1, -1]) !== JSON.stringify(selected)
+    }
+    // Is current piece selected
+    function isSelected() {
+        return JSON.stringify(pos) === JSON.stringify(selected)
+    }
+
 
     return (
         <Box onClick={handleClick} border={1} style={{height: 50, width: 50, background: highlighted}}>

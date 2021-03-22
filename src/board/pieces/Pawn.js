@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 
-export default function King(props) {
+export default function Pawn(props) {
     const {pieceColour} = props
 
     const [colour, setColour] = useState(pieceColour)
 
-    return (<div>KING</div>)
+    return (<div>p</div>)
 }
 
 export function moveKing(board, colour, ) {

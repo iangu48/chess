@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 
-export default function King(props) {
+export default function Queen(props) {
     const {pieceColour} = props
 
     const [colour, setColour] = useState(pieceColour)
 
-    return (<div>KING</div>)
+    return (<div>queen</div>)
 }
 
-export function moveKing(board, colour, ) {
+export function moveQueen(board, colour, ) {
 
 }

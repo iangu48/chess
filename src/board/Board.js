@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PLAYER_COLOUR, PIECES} from '../constants'
-import King from "./pieces/King";
 import {Box, Container, Grid} from "@material-ui/core";
 import Square from "./Square";
 

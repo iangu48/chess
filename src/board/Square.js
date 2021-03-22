@@ -7,7 +7,6 @@ import Pawn from "./pieces/Pawn";
 import Knight from "./pieces/Knight";
 import Bishop from "./pieces/Bishop";
 import Rook from "./pieces/Rook";
-import React from "react";
 
 
 export default function Square(props) {

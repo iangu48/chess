@@ -10,7 +10,8 @@ import Rook from "./pieces/Rook";
 
 
 export default function Square(props) {
-    const {piece, pos, setSelected, selected, turn} = props
+    const {piece, pos, setSelected, selected, turn, board, setBoard, setTurn} = props
+    const [r, c] = pos
     const highlighted = isSelected() ? '#a6f2f7' : 'white'
 
     function isSelected() {
@@ -55,24 +56,37 @@ export default function Square(props) {
             case PIECES.WHITE.PAWN:
                 return Pawn(PLAYER_COLOUR.WHITE)
             default:
-                return <div> </div>
+                return <div></div>
         }
     }
-
-    useEffect(() => {
-        if (isSelected()) {
-            console.log("display possible moves")
-        }
-    }, [selected])
 
     function handleClick() {
 
-        if (Object.values(turn).indexOf(piece) >= 0)
+        if (Object.values(turn).indexOf(piece) >= 0) {
             setSelected(pos)
-        else
+        } else if (board[r][c] === 0 && JSON.stringify([-1, -1]) !== JSON.stringify(selected)) {
+            // if move is valid, then move
+            movePiece(selected, pos)
+
+            // else cannot move here
+        } else {
             console.log('cannot move this pce')
+        }
     }
 
+    function movePiece(from, to) {
+        const copy = [...board]
+        copy[to[0]][to[1]] = copy[from[0]][from[1]]
+        copy[from[0]][from[1]] = 0
+
+        setBoard(copy)
+
+        // end turn
+        setTurn(turn === PIECES.WHITE ? PIECES.BLACK : PIECES.WHITE)
+
+        // unselect square
+        setSelected([-1,-1])
+    }
 
     return (
         <Box onClick={handleClick} border={1} style={{height: 50, width: 50, background: highlighted}}>
